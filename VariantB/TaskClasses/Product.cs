@@ -17,6 +17,7 @@ namespace VariantC.TaskClasses
             _productDescription = prodDes;
             _productPrice = prodPrice;
         }
+
         public string ProductName // Свойсво имени продукта.
         {
             get { return _productName; }

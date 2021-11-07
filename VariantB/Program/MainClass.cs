@@ -39,6 +39,13 @@ using VariantB.Storage;
 using VariantB.DelegateEventSort;
 using VariantB.DataBase;
 
+
+//Первая часть задания реализована в папке DataBase
+// Вторая часть в классе OrderStorage. Методы из OrderStorage вызываются в Functions.cs.
+// 3 часть в OrderStorage. 
+
+
+
 namespace VariantC
 {
     class MainClass
@@ -48,14 +55,15 @@ namespace VariantC
             var AppleProduct = new Product();
             var TableProduct = new Product();
             var MouseProduct = new Product();
-            var TShirtProduct = new Product("Футболка", "Синяя футболка, xl", 450);//создание продуктов-конструктор
-            AppleProduct.CreateProduct("Яблоки", "Свежие яблоки \"Малинка\"", 15.60); //создание продуктов-методы
-            TableProduct.CreateProduct("Стол", "Лучший в мире стол", 2100);
-            MouseProduct.CreateProduct("Мышь", "Logitech. Хорошее качество.", 800); 
+            var TShirtProduct = new Product("TShirt", "Синяя футболка, xl", 450);//создание продуктов-конструктор
+            AppleProduct.CreateProduct("Apple", "Свежие яблоки \"Малинка\"", 15.60); //создание продуктов-методы
+            TableProduct.CreateProduct("Table", "Лучший в мире стол", 2100);
+            MouseProduct.CreateProduct("Mouse", "Logitech. Хорошее качество.", 800); 
 
             ProductStorage productInOrderStorage = new ProductStorage(); // коллекция продуктов
             OrderStorage storageOrder = new OrderStorage(); // коллекция заказов
-            CRUDOp.CreateDataBaseFile("DataBase");
+            IsDeserialize(false, storageOrder);// Нужна ли десериализация.  Метод в этом классе ниже.
+            CRUDOp.CreateDataBaseFile("DataBase"); // Создание файла БД.
 
             productInOrderStorage.AddProduct(new ProductInOrder(TableProduct, 3)); // Продукты в коллекцию
             productInOrderStorage.AddProduct(new ProductInOrder(AppleProduct, 55));
@@ -69,7 +77,6 @@ namespace VariantC
             storageOrder.AddOrder("0996154567", new Order(83444, 14, new List<ProductInOrder>() {
             productInOrderStorage[0], productInOrderStorage[1]}));// создать добавить заказ // 1 ЗАКАЗ//
 
-
             storageOrder.AddOrder("0994433565", new Order(80111, 15, new List<ProductInOrder>() {
             productInOrderStorage[2]}));// добавить заказ // 2 ЗАКАЗ//
 
@@ -79,6 +86,7 @@ namespace VariantC
             storageOrder.AddOrder("0564750381", new Order(10000, 15, new List<ProductInOrder>() {
             productInOrderStorage[6], productInOrderStorage[7]}));// добавить заказ // 4 ЗАКАЗ//
             CRUDOp.CreateRecord(storageOrder, "DataBase"); // Создать записи.
+
             SetOrder(ref productInOrderStorage, ref storageOrder); // Меню добавления заказов. Метод в этом классе ниже.
 
             CRUDOp.ReadRecords("DataBase"); //Вывести в консоль.
@@ -89,6 +97,15 @@ namespace VariantC
             CRUDOp.AddRecord("0999999998", storageOrder[1].Item2, "DataBase");
             CRUDOp.ReadRecords("DataBase");
 
+
+            storageOrder.Serialize(); // Сериализация коллекции.
+
+            Functions.SearchOrdersWithSumAndCOuntOfProducts(storageOrder, 10000, 2); //Вывести номера заказов, сумма которых не превосходит заданную и количество различных товаров равно заданному.
+            Functions.SearchThisProduction(storageOrder, "Футболка"); // Вывести номера заказов, содержащих заданный товар.
+            Functions.SearchNotContainsProductAndToday(storageOrder, "Яблоки", 15);//Вывести номера заказов, не содержащих заданный товар и поступивших в течение текущего дня.
+            // В этом задании можно не использовать следующее
+                                   //   |
+                      
             //for (int i = 0; i < storageOrder.Count; i++) // Вывести все заказы
             //{
             //    Console.WriteLine(storageOrder[i]);
@@ -106,8 +123,6 @@ namespace VariantC
             //    Console.WriteLine(storageOrder[i]);
             //}
             //Console.WriteLine("-------------------------------------------------");
-
-            // раскомментировать чтоб работало, 
 
             //Functions.SearchOrdersWithSumAndCOuntOfProducts(storageOrder, 10000, 2); //Вывести номера заказов, сумма которых не превосходит заданную и количество различных товаров равно заданному.
             //Functions.SearchThisProduction(storageOrder, "Футболка"); // Вывести номера заказов, содержащих заданный товар.
@@ -182,6 +197,13 @@ namespace VariantC
             } while (choice != 2);
         }
 
+        public static void IsDeserialize(bool check, OrderStorage storageOrder) // Спрашивает, нужна ли десериализация
+        {
+            if(check)
+            {
+                storageOrder.Deserialize();
+            }
+        }
 
     }
 }

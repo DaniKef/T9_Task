@@ -35,8 +35,6 @@ namespace VariantC.TaskClasses
         }
         public Order() // Конструктор.
         {
-            OrderNumber = 0;
-            ReceiptDay = new DateTime(0, 0, 0);
         }
 
         public int OrderNumber // Свойство номера заказа.
@@ -95,6 +93,5 @@ namespace VariantC.TaskClasses
         {
             return GetInformationAboutOrder();
         }
-
     }
 }

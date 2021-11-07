@@ -20,6 +20,9 @@ namespace VariantC.TaskClasses
             _productIn = product;
             Amount = amount;
         }
+        public ProductInOrder()
+        {
+        }
         public int Amount // Свойство цены продукта.
         {
             get { return _amount; }

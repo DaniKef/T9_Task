@@ -12,16 +12,19 @@ namespace VariantC.Program
     {
         public static void SearchOrdersWithSumAndCOuntOfProducts(OrderStorage orderList, int sum, int countProducts) // Вывести номера заказов, сумма которых не превосходит заданную и количество различных товаров равно заданному.
         {
+            OrderStorage.WriteResultOfRequest("", "SearchOrdersWithSumAndCOuntOfProducts"); // Запись обращения
             for (int i = 0; i < orderList.Count; i++) // перебирает все заказы
             {
                 if (orderList[i].Item2.CountSumOfProducts() <= sum && orderList[i].Item2.ProductsInOrder.Count == countProducts)// если сумма в заказе меньше заданной и кол-во товаров == заданному
                 {
                     Console.WriteLine(orderList[i].Item2.OrderNumber);// Вывести номер
+                    OrderStorage.WriteResultOfRequest(orderList[i].Item2.OrderNumber.ToString(), ""); // Запись результата
                 }
             }
         }
         public static void SearchThisProduction(OrderStorage orderList, string productName)// Вывести номера заказов, содержащих заданный товар.
         {
+            OrderStorage.WriteResultOfRequest("", "SearchThisProduction");
             for (int i = 0; i < orderList.Count; i++)// перебирает все заказы
             {
                 for(int j = 0; j<orderList[i].Item2.ProductsInOrder.Count;j++) // Перебирает все товары в заказе
@@ -29,12 +32,14 @@ namespace VariantC.Program
                     if (orderList[i].Item2.ProductsInOrder[j].ProductIn.ProductName == productName)// если совпадаю имя
                     {
                         Console.WriteLine(orderList[i].Item2.OrderNumber);// Вывести номер
+                        OrderStorage.WriteResultOfRequest(orderList[i].Item2.OrderNumber.ToString(), "");
                     }
                 }
             }
         }
         public static void SearchNotContainsProductAndToday(OrderStorage orderList, string productName, int day) //Вывести номера заказов, не содержащих заданный товар и поступивших в течение текущего дня.
         {
+            OrderStorage.WriteResultOfRequest("", "SearchNotContainsProductAndToday");
             bool isContains = false; // если заказы есть
             for (int i = 0; i < orderList.Count; i++)// перебирает все заказы
             {
@@ -48,12 +53,14 @@ namespace VariantC.Program
                 if (!isContains && orderList[i].Item2.ReceiptDay.Date.Day == day)// если такого товара нет и день== заданному дню
                 {
                     Console.WriteLine(orderList[i].Item2.OrderNumber);// Вывести номер
+                    OrderStorage.WriteResultOfRequest(orderList[i].Item2.OrderNumber.ToString(), "");
                 }
                 isContains = false;//сбросить
             }
         }
         public static Order CreateOrder(OrderStorage orderList, int day) //Сформировать новый заказ, состоящий из товаров, заказанных в текущий день.
         {
+            OrderStorage.WriteResultOfRequest("", "CreateOrder");
             List<ProductInOrder> productsOrder = new List<ProductInOrder>(); // для составления товаров список товаров
             for (int i = 0; i < orderList.Count; i++)// перебирает все заказы
             {
@@ -66,10 +73,12 @@ namespace VariantC.Program
                 }
             }
             var newOrder = new Order(1000 + day, 17, productsOrder); // Создается новый заказ
+            OrderStorage.WriteResultOfRequest(newOrder.ToString(), "");
             return newOrder;// Возвращается
         }
         public static void RemoveOrdersThisProductThisAmount(ref OrderStorage orderList, string productName, int amount)//Удалить все заказы, в которых присутствует заданное количество заданного товара.
         {
+            OrderStorage.WriteResultOfRequest("", "RemoveOrdersThisProductThisAmount");
             int countOfProduct = 0; // считает кол-во заданного товара
             for (int i = 0; i < orderList.Count; i++)// перебирает все заказы
             {
@@ -84,6 +93,8 @@ namespace VariantC.Program
                     orderList.RemoveOrder(orderList[i].Item1); // Удалить заказ
                 countOfProduct = 0; // Сбросить счетчик
             }
+            foreach(var at in orderList)
+                OrderStorage.WriteResultOfRequest(at.ToString(), "");
         }
     }
 }
