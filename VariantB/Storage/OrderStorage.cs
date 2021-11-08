@@ -84,8 +84,8 @@ namespace VariantB.Storage
                 using (StreamWriter sw = new StreamWriter(fileName, true, Encoding.Default))
                 {
                     if(requestName != "")
-                        sw.WriteLine("Запрос " + requestName + ":");
-                    if(orderResult != "")
+                        sw.WriteLine("Запрос " + requestName + ". Время - " + DateTime.Now + " :");
+                    if (orderResult != "")
                         sw.WriteLine(orderResult);
                 }
             }
