@@ -62,7 +62,19 @@ namespace VariantC
 
             ProductStorage productInOrderStorage = new ProductStorage(); // коллекция продуктов
             OrderStorage storageOrder = new OrderStorage(); // коллекция заказов
-            IsDeserialize(false, storageOrder);// Нужна ли десериализация.  Метод в этом классе ниже.
+            Console.WriteLine("Програма завершилась с ошибкой? 1. Да 2. Нет");
+            int checkSerialize = Int32.Parse(Console.ReadLine());
+            switch(checkSerialize)
+            {
+                case 1:
+                    IsDeserialize(false, storageOrder);// Нужна ли десериализация.  Метод в этом классе ниже.
+                    break;
+                case 2:
+                    IsDeserialize(true, storageOrder);// Нужна ли десериализация.  Метод в этом классе ниже.
+                    break;
+                default:
+                    break;
+            }
             CRUDOp.CreateDataBaseFile("DataBase"); // Создание файла БД.
 
             productInOrderStorage.AddProduct(new ProductInOrder(TableProduct, 3)); // Продукты в коллекцию
